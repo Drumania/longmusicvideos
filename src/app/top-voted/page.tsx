@@ -2,18 +2,15 @@
 import { Header } from "@/components/Header";
 import { VideoCard, Video } from "@/components/VideoCard";
 import { Button } from "@/components/ui/button";
-import { app } from "@/lib/firebase"; 
-import { getFirestore, collection, getDocs, query, orderBy, limit } from "firebase/firestore";
+import { adminDb } from "@/lib/firebase-admin";
 import Link from "next/link";
 import { Award } from 'lucide-react';
 
 // Fetch top-voted videos from Firestore
 async function getTopVotedVideos() {
-  const db = getFirestore(app);
-  const videosCollection = collection(db, "videos");
+  const videosCollection = adminDb.collection("videos");
   // Query to order by votes in descending order and limit to the top 20
-  const q = query(videosCollection, orderBy("votes", "desc"), limit(20));
-  const videoSnapshot = await getDocs(q);
+  const videoSnapshot = await videosCollection.orderBy("votes", "desc").limit(20).get();
   
   const videoList = videoSnapshot.docs.map(doc => {
       const data = doc.data();

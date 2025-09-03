@@ -2,15 +2,13 @@
 import { Header } from "@/components/Header";
 import { VideoCard, Video } from "@/components/VideoCard";
 import { Button } from "@/components/ui/button";
-import { app } from "@/lib/firebase"; // Import the initialized Firebase app
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { adminDb } from "@/lib/firebase-admin";
 import Link from "next/link"; // Import the Link component
 
 // Fetch videos from Firestore
 async function getVideos() {
-  const db = getFirestore(app);
-  const videosCollection = collection(db, "videos");
-  const videoSnapshot = await getDocs(videosCollection);
+  const videosCollection = adminDb.collection("videos");
+  const videoSnapshot = await videosCollection.get();
   const videoList = videoSnapshot.docs.map(doc => {
       const data = doc.data();
       return {
