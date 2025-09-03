@@ -1,62 +1,55 @@
+
 # Lofi Video Directory - Blueprint
 
 ## Overview
 
-This document outlines the plan and progress for creating a Next.js web application for discovering and curating Lofi YouTube videos. The app will feature user authentication, a voting system, and personal "favorites" lists, all built on a modern tech stack.
+This application is a curated directory of lofi hip hop videos, designed for users to discover, vote for, and save their favorite tracks. It provides a simple and intuitive interface for exploring new music, seeing what's popular, and keeping a personal collection of favorites.
 
-## Project Outline
+## Project Structure
 
-### Core Functionality
-- **Video Discovery:** Display a curated list of lofi videos from YouTube.
-- **Video Player:** Embed the official YouTube player in an iframe.
-- **User Authentication:** Login with Google or Email via Firebase Auth.
-- **Favorites:** Logged-in users can save videos to a personal list.
-- **Voting System:** Logged-in users can upvote videos to rank them.
+The project follows the standard Next.js App Router structure.
 
-### Tech Stack
-- **Framework:** Next.js with App Router
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **UI Components:** shadcn/ui
-- **Backend:** Firebase (Authentication & Firestore)
-- **Icons:** lucide-react
+-   `/src/app`: The core directory for file-based routing.
+    -   `layout.tsx`: The root layout, which now includes the `AuthProvider`.
+    -   `page.tsx`: The main "Explore" page, displaying all videos.
+    -   `/favorites`:
+        -   `page.tsx`: The "My Favorites" page, which shows videos the user has favorited.
+    -   `/top-voted`:
+        -   `page.tsx`: The "Top Voted" page, displaying the most popular videos.
+-   `/src/components`: Contains reusable UI components.
+    -   `Header.tsx`: The application header.
+    -   `VideoCard.tsx`: The card component for displaying individual videos.
+    -   `/ui`: Shadcn UI components.
+-   `/src/context`:
+    -   `AuthContext.tsx`: The authentication context, which manages user login and session.
+-   `/src/lib`:
+    -   `firebase.ts`: Firebase configuration and initialization.
+-   `/public`: Static assets.
+-   `blueprint.md`: This file, documenting the project.
 
-### Firestore Data Structure
+## Design and Features
 
-- **Videos Collection:**
-  - `videos/{documentId}`
-    - `id`: string (YouTube video ID)
-    - `title`: string
-    - `channel`: string
-    - `thumbnail`: string
-    - `votes`: number
-    - `favorites`: array of user UIDs
+### Visual Design
 
-### UI Components
-- **Header:** Contains the app logo, a search bar, and user profile/login button.
-- **Filter Bar:** Buttons to switch between "Explore," "Top," and "My Favorites."
-- **Video Card:** Displays video thumbnail, title, channel, and action buttons (Play, Favorite, Vote, View on YouTube).
-- **Embedded Player:** A modal or sticky player that shows the YouTube iframe.
+-   **Theme:** Dark mode, with a modern and clean aesthetic.
+-   **Color Palette:** Primarily uses shades of gray for the background, with white text and accent colors for buttons and interactive elements.
+-   **Typography:** The `Geist` font family is used for a clean and modern look.
+-   **Iconography:** `lucide-react` is used for icons, providing a consistent and lightweight set of visuals.
+-   **Layout:** A responsive grid layout is used to display the video cards, adapting to different screen sizes.
 
-### Design & UX
-- **Theme:** Modern, dark theme suitable for a "lofi" aesthetic.
-- **Layout:** Clean, grid-based layout for video cards.
-- **Responsiveness:** Fully responsive design for desktop and mobile.
-- **Interactivity:** Smooth transitions and clear feedback for user actions (voting, favoriting).
+### Features
 
-## Current Plan
+-   **Video Directory:** The main page displays a list of lofi hip hop videos.
+-   **Voting System:** Users can vote for their favorite videos. The vote count is updated in real-time.
+-   **Favorites:** Users can save videos to their personal "Favorites" list.
+-   **Top Voted:** A dedicated page showcases the most popular videos based on vote count.
+-   **Authentication:** Users can log in with their Google account to save favorites.
+-   **Server Actions:** Next.js Server Actions are used for handling mutations like voting and favoriting, providing a seamless and secure user experience.
+-   **Firebase Integration:** Firestore is used as the database to store video information, votes, and user favorites.
 
-1.  **DONE** Set up the initial project structure and define the plan in this `blueprint.md`.
-2.  **DONE** Add Firebase to the project configuration.
-3.  **DONE** Install necessary dependencies: `firebase`, `lucide-react`, `dotenv`, `ts-node`.
-4.  **DONE** Initialize `shadcn/ui` and add `card` and `button` components.
-5.  **DONE** Create the Firebase configuration file (`src/lib/firebase.ts`) using environment variables.
-6.  **DONE** Create a `.env.local` file for Firebase credentials.
-7.  **DONE** Create a `seed.ts` script to populate the Firestore database.
-8.  **DONE** Add a `seed` script to `package.json`.
-9.  **DONE** Create initial UI components: `Header` and a placeholder `VideoCard`.
-10. **DONE** Structure the main page (`src/app/page.tsx`) with a mock video list.
-11. **DONE** Implement Firebase Authentication flow with `AuthContext`.
-12. **Next:** Connect to Firestore to fetch and display video data on the main page.
-13. **Next:** Implement the "favorite" and "vote" functionality using Server Actions.
-14. **Next:** Create dynamic pages for "Top Voted" and "My Favorites."
+## Changes Made to Fix the Routing Issue
+
+1.  **Consolidated Routing:** All page files were moved from the `app` directory to the `src/app` directory to resolve the routing issue.
+2.  **Added AuthProvider:** The `AuthProvider` was added to the root layout (`src/app/layout.tsx`) to provide the authentication context to all pages. This fixed the error that was occurring on the favorites page.
+3.  **Cleaned Up Project:** The old, empty `app` directory was removed.
+

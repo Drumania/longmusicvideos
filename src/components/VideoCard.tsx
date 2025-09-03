@@ -2,12 +2,13 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart, PlayCircle, ThumbsUp, Youtube } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext'; // Import the useAuth hook
 import { addVote, toggleFavorite } from '@/app/actions'; // Import Server Actions
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 export interface Video {
     documentId: string; // Firestore document ID
@@ -43,7 +44,7 @@ export function VideoCard({ video }: { video: Video }) {
   return (
     <Card className="bg-gray-800 border-gray-700 overflow-hidden rounded-lg shadow-lg hover:shadow-cyan-500/50 transition-shadow duration-300 flex flex-col">
         <div className="relative">
-            <img src={video.thumbnail} alt={video.title} className="w-full h-auto object-cover" />
+            <Image src={video.thumbnail} alt={video.title} width={400} height={225} className="w-full h-auto object-cover" />
             <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
                  <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" className='cursor-pointer'>
                     <PlayCircle className="h-12 w-12 text-white hover:text-cyan-400 transition-colors" />

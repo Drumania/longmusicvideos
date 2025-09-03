@@ -74,7 +74,7 @@ export default function FavoritesPage() {
         {!loading && user && videos.length === 0 && (
             <div className='text-center bg-gray-800 p-8 rounded-lg'>
                 <h2 className='text-2xl font-bold mb-4'>No Favorites Yet</h2>
-                <p>You haven't added any videos to your favorites. Click the heart icon on a video to save it here.</p>
+                <p>You haven&apos;t added any videos to your favorites. Click the heart icon on a video to save it here.</p>
             </div>
         )}
         

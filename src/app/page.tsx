@@ -14,7 +14,7 @@ async function getVideos() {
   const videoList = videoSnapshot.docs.map(doc => {
       const data = doc.data();
       return {
-          documentId: doc.id,
+          documentId: doc.id, 
           id: data.id, 
           title: data.title,
           channel: data.channel,

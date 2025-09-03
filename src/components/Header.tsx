@@ -2,8 +2,9 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
-import { UserCircle, Search, LogIn, LogOut } from 'lucide-react';
+import { Search, LogIn, LogOut } from 'lucide-react';
 import { Button } from './ui/button';
+import Image from 'next/image';
 
 export function Header() {
   const { user, login, logout } = useAuth();
@@ -17,7 +18,7 @@ export function Header() {
         </Button>
         {user ? (
           <div className="flex items-center gap-2">
-            <img src={user.photoURL || ''} alt={user.displayName || 'User'} className="w-8 h-8 rounded-full" />
+            <Image src={user.photoURL || '/default-avatar.png'} alt={user.displayName || 'User'} width={32} height={32} className="rounded-full" />
             <span className="text-white hidden sm:block">{user.displayName}</span>
             <Button variant="ghost" size="icon" onClick={logout} className="text-gray-400 hover:text-white">
                 <LogOut />
