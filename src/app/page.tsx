@@ -4,6 +4,7 @@ import { VideoCard, Video } from "@/components/VideoCard";
 import { Button } from "@/components/ui/button";
 import { adminDb } from "@/lib/firebase-admin";
 import Link from "next/link"; // Import the Link component
+import { FirebaseDebug } from "@/components/FirebaseDebug";
 
 // Fetch videos from Firestore
 async function getVideos() {
@@ -31,21 +32,13 @@ export default async function Home() {
     <div className="min-h-screen bg-gray-900 text-white">
       <Header />
       <main className="p-8">
-        <div className="flex justify-center gap-4 mb-8">
-            <Button variant="secondary">Explore</Button>
-            <Link href="/top-voted">
-                <Button variant="ghost">Top Voted</Button>
-            </Link>
-            <Link href="/favorites">
-                <Button variant="ghost">My Favorites</Button>
-            </Link>
-        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {videos.map((video) => (
             <VideoCard key={video.documentId} video={video} />
           ))}
         </div>
       </main>
+      <FirebaseDebug />
     </div>
   );
 }

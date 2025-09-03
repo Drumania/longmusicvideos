@@ -9,7 +9,7 @@ import { useAuth } from '@/context/AuthContext'; // Import the useAuth hook
 import { addVote, toggleFavorite } from '@/app/actions'; // Import Server Actions
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { VideoEmbedModal } from './VideoEmbedModal';
+import { useVideoPlayer } from '@/context/VideoPlayerContext';
 
 export interface Video {
     documentId: string; // Firestore document ID
@@ -24,7 +24,7 @@ export interface Video {
 export function VideoCard({ video }: { video: Video }) {
   const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isEmbedModalOpen, setIsEmbedModalOpen] = useState(false);
+  const { openPlayer } = useVideoPlayer();
 
   // Check if the current user has favorited this video
   const isFavorited = user ? video.favorites.includes(user.uid) : false;
@@ -44,59 +44,69 @@ export function VideoCard({ video }: { video: Video }) {
   };
 
   return (
-    <Card className="bg-gray-800 border-gray-700 overflow-hidden rounded-lg shadow-lg hover:shadow-cyan-500/50 transition-shadow duration-300 flex flex-col">
-        <div className="relative">
-            <Image src={video.thumbnail} alt={video.title} width={400} height={225} className="w-full h-auto object-cover" />
-            <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
+    <Card className="bg-gray-800/50 border-gray-700/50 overflow-hidden rounded-xl shadow-lg hover:shadow-cyan-500/20 hover:bg-gray-800/70 transition-all duration-300 flex flex-col group">
+        <div className="relative aspect-video">
+            <Image 
+              src={video.thumbnail} 
+              alt={video.title} 
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300" 
+            />
+            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 flex items-center justify-center transition-colors">
                  <button 
-                   onClick={() => setIsEmbedModalOpen(true)}
-                   className='cursor-pointer hover:scale-110 transition-transform'
+                   onClick={() => openPlayer(video.id, video.title)}
+                   className='opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:scale-110 transform'
                  >
-                    <PlayCircle className="h-12 w-12 text-white hover:text-cyan-400 transition-colors" />
+                    <PlayCircle className="h-16 w-16 text-white drop-shadow-lg" />
                 </button>
             </div>
+            {/* YouTube icon overlay */}
+            <div className="absolute top-3 right-3">
+              <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer">
+                <Button 
+                  size="icon" 
+                  className="h-8 w-8 bg-red-600/90 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
+                  <Youtube className="h-4 w-4" />
+                </Button>
+              </a>
+            </div>
         </div>
-      <CardHeader className="p-4 flex-grow">
-        <CardTitle className="text-lg font-semibold text-white truncate">{video.title}</CardTitle>
-        <p className="text-sm text-gray-400">{video.channel}</p>
-      </CardHeader>
-      <CardFooter className="p-4 flex justify-between items-center bg-gray-800/50 mt-auto">
-        <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="flex items-center gap-2 text-gray-400 hover:text-rose-500 disabled:opacity-50 transition-colors"
-              onClick={handleFavorite}
-              disabled={!user || isProcessing}
-            >
-              <Heart className={cn("h-5 w-5", isFavorited && "fill-current text-rose-500")} />
-            </Button>
-            <div className='flex items-center gap-1'>
+        
+        <div className="p-4 flex-grow flex flex-col">
+          <div className="flex-grow">
+            <h3 className="text-white font-semibold text-sm leading-tight mb-2 line-clamp-2">
+              {video.title}
+            </h3>
+            <p className="text-gray-400 text-xs mb-3 truncate">{video.channel}</p>
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8 text-gray-400 hover:text-rose-500 disabled:opacity-50 transition-colors"
+                onClick={handleFavorite}
+                disabled={!user || isProcessing}
+              >
+                <Heart className={cn("h-4 w-4", isFavorited && "fill-current text-rose-500")} />
+              </Button>
+              <div className='flex items-center gap-1'>
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="text-gray-400 hover:text-green-500 disabled:opacity-50 transition-colors"
+                  className="h-8 w-8 text-gray-400 hover:text-green-500 disabled:opacity-50 transition-colors"
                   onClick={handleVote}
                   disabled={!user || isProcessing}
                 >
-                  <ThumbsUp className="h-5 w-5" />
+                  <ThumbsUp className="h-4 w-4" />
                 </Button>
-                <span className="text-sm text-gray-300 font-medium">{video.votes}</span>
+                <span className="text-xs text-gray-300 font-medium">{video.votes}</span>
+              </div>
             </div>
+          </div>
         </div>
-        <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer">
-            <Button variant="secondary" className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105">
-                <Youtube className="h-5 w-5 mr-2" />
-                YouTube
-            </Button>
-        </a>
-      </CardFooter>
-      <VideoEmbedModal 
-        isOpen={isEmbedModalOpen}
-        onClose={() => setIsEmbedModalOpen(false)}
-        videoId={video.id}
-        title={video.title}
-      />
     </Card>
   );
 }

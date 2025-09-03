@@ -34,13 +34,24 @@ export function AddVideoModal({ isOpen, onClose }: AddVideoModalProps) {
 
   const fetchVideoData = async (videoId: string) => {
     try {
-      // Usar la API de YouTube Data v3 para obtener metadatos
+      // Primero intentar con la API oficial de YouTube
       const response = await fetch(`/api/youtube/${videoId}`);
-      if (!response.ok) {
-        throw new Error('Error al obtener datos del video');
-      }
       const data = await response.json();
-      return data;
+      
+      if (response.ok) {
+        return data;
+      }
+      
+      // Si falla, usar método alternativo
+      console.log('API principal falló, usando método alternativo...');
+      const fallbackResponse = await fetch(`/api/youtube-fallback/${videoId}`);
+      const fallbackData = await fallbackResponse.json();
+      
+      if (!fallbackResponse.ok) {
+        throw new Error(fallbackData.error || 'Error al obtener datos del video');
+      }
+      
+      return fallbackData;
     } catch (error) {
       console.error('Error fetching video data:', error);
       throw error;
@@ -78,12 +89,17 @@ export function AddVideoModal({ isOpen, onClose }: AddVideoModalProps) {
 
     setIsLoading(true);
     try {
-      await addVideo(videoData);
-      setUrl('');
-      setVideoData(null);
-      setError('');
-      onClose();
+      const result = await addVideo(videoData);
+      if (result.success) {
+        setUrl('');
+        setVideoData(null);
+        setError('');
+        onClose();
+      } else {
+        setError(result.error || 'Error al guardar el video');
+      }
     } catch (error) {
+      console.error('Error saving video:', error);
       setError('Error al guardar el video');
     } finally {
       setIsLoading(false);

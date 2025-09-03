@@ -47,8 +47,9 @@ export async function addVideo(videoData: {
   channel: string;
 }) {
   try {
+    console.log('Attempting to add video:', videoData);
     const videosCollection = collection(db, 'videos');
-    await addDoc(videosCollection, {
+    const docRef = await addDoc(videosCollection, {
       id: videoData.videoId,
       title: videoData.title,
       channel: videoData.channel,
@@ -58,10 +59,11 @@ export async function addVideo(videoData: {
       favorites: [],
       createdAt: new Date(),
     });
+    console.log('Video added successfully with ID:', docRef.id);
     revalidatePath('/');
     return { success: true };
   } catch (error) {
     console.error('Error adding video:', error);
-    return { success: false, error: 'Failed to add video.' };
+    return { success: false, error: `Failed to add video: ${error.message}` };
   }
 }

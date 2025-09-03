@@ -7,6 +7,7 @@ import { Button } from './ui/button';
 import Image from 'next/image';
 import { useState } from 'react';
 import { AddVideoModal } from './AddVideoModal';
+import Link from 'next/link';
 
 export function Header() {
   const { user, login, logout } = useAuth();
@@ -14,7 +15,30 @@ export function Header() {
 
   return (
     <header className="flex items-center justify-between p-4 border-b border-gray-700">
-      <div className="text-2xl font-bold text-white">Lofi Video Directory</div>
+      <div className="flex items-center gap-3">
+        <Image 
+          src="/logo.png" 
+          alt="Logo" 
+          width={32} 
+          height={32} 
+          className="rounded-lg"
+        />
+        <div className="text-2xl font-bold text-white">Lofi Video Directory</div>
+      </div>
+      
+      {/* Navigation filters - centered */}
+      <div className="flex items-center gap-4">
+        <Link href="/">
+          <Button variant="secondary">Explore</Button>
+        </Link>
+        <Link href="/top-voted">
+          <Button variant="ghost">Top Voted</Button>
+        </Link>
+        <Link href="/favorites">
+          <Button variant="ghost">My Favorites</Button>
+        </Link>
+      </div>
+      
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
             <Search />

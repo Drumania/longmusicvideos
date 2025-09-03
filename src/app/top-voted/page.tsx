@@ -34,15 +34,6 @@ export default async function TopVotedPage() {
     <div className="min-h-screen bg-gray-900 text-white">
       <Header />
       <main className="p-8">
-        <div className="flex justify-center gap-4 mb-8">
-            <Link href="/">
-                <Button variant="ghost">Explore</Button>
-            </Link>
-            <Button variant="secondary">Top Voted</Button>
-            <Link href="/favorites">
-                <Button variant="ghost">My Favorites</Button>
-            </Link>
-        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {videos.map((video, index) => (
             <div key={video.documentId} className="relative">

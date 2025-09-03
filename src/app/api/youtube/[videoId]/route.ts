@@ -14,7 +14,10 @@ export async function GET(
     // Usar la API de YouTube Data v3
     const apiKey = process.env.YOUTUBE_API_KEY;
     if (!apiKey) {
-      return NextResponse.json({ error: 'YouTube API key not configured' }, { status: 500 });
+      console.error('YouTube API key not configured');
+      return NextResponse.json({ 
+        error: 'YouTube API key not configured. Please add YOUTUBE_API_KEY to your environment variables.' 
+      }, { status: 500 });
     }
 
     const response = await fetch(
@@ -22,13 +25,17 @@ export async function GET(
     );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch video data');
+      const errorText = await response.text();
+      console.error('YouTube API error:', response.status, errorText);
+      return NextResponse.json({ 
+        error: `YouTube API error: ${response.status} - ${errorText}` 
+      }, { status: response.status });
     }
 
     const data = await response.json();
 
     if (!data.items || data.items.length === 0) {
-      return NextResponse.json({ error: 'Video not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Video not found or is private' }, { status: 404 });
     }
 
     const video = data.items[0];

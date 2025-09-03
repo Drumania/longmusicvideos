@@ -52,16 +52,6 @@ export default function FavoritesPage() {
     <div className="min-h-screen bg-gray-900 text-white">
       <Header />
       <main className="p-8">
-        <div className="flex justify-center gap-4 mb-8">
-          <Link href="/">
-            <Button variant="ghost">Explore</Button>
-          </Link>
-          <Link href="/top-voted">
-            <Button variant="ghost">Top Voted</Button>
-          </Link>
-          <Button variant="secondary">My Favorites</Button>
-        </div>
-        
         {loading && <p className='text-center'>Loading your favorite videos...</p>}
 
         {!loading && !user && (
