@@ -16,9 +16,14 @@ interface YouTubeVideoItem {
   id: string;
   snippet?: {
     title?: string;
+    description?: string;
     channelId?: string;
     channelTitle?: string;
-    thumbnails?: Record<string, any>;
+    thumbnails?: Record<string, {
+      url?: string;
+      width?: number;
+      height?: number;
+    }>;
     publishedAt?: string;
     liveBroadcastContent?: string;
   };
@@ -68,7 +73,7 @@ export async function GET() {
     const q = [
       "lofi",
       "synthwave",
-      "vaporwave",
+      "vaporwavego",
       "retrowave",
       "study",
       "sleep"
