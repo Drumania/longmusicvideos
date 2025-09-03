@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   title: "Lofi Video Directory",
   description: "Your place for curated lofi hip hop beats to study, relax, or focus.",
   icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: '/logo.png',
   },
 };
