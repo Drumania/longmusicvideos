@@ -128,4 +128,12 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .gradient-primary {
+    background: #14b8a6;
+  }
+
+  .gradient-primary-text {
+    color: #14b8a6;
+  }
 }

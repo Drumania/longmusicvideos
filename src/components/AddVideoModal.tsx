@@ -137,7 +137,7 @@ export function AddVideoModal({ isOpen, onClose }: AddVideoModalProps) {
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white"
+            className="w-full gradient-primary hover:bg-teal-400 text-white transition-colors"
           >
             {isLoading ? (
               <>
@@ -169,7 +169,7 @@ export function AddVideoModal({ isOpen, onClose }: AddVideoModalProps) {
                 type="button"
                 onClick={handleSave}
                 disabled={isLoading}
-                className="flex-1 bg-green-500 hover:bg-green-600 text-white"
+                className="flex-1 gradient-primary hover:bg-teal-400 text-white transition-colors"
               >
                 {isLoading ? (
                   <>

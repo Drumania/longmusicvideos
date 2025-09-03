@@ -44,65 +44,65 @@ export function VideoCard({ video }: { video: Video }) {
   };
 
   return (
-    <Card className="bg-gray-800/50 border-gray-700/50 overflow-hidden rounded-xl shadow-lg hover:shadow-cyan-500/20 hover:bg-gray-800/70 transition-all duration-300 flex flex-col group">
+    <Card className="bg-gray-800/30 border-gray-700/30 overflow-hidden rounded-lg shadow-sm hover:shadow-cyan-500/10 hover:bg-gray-800/50 transition-all duration-200 flex flex-col group">
         <div className="relative aspect-video">
             <Image 
               src={video.thumbnail} 
               alt={video.title} 
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-300" 
+              className="object-cover group-hover:scale-105 transition-transform duration-200" 
             />
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 flex items-center justify-center transition-colors">
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 flex items-center justify-center transition-colors">
                  <button 
                    onClick={() => openPlayer(video.id, video.title)}
-                   className='opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:scale-110 transform'
+                   className='opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:scale-110 transform'
                  >
-                    <PlayCircle className="h-16 w-16 text-white drop-shadow-lg" />
+                    <PlayCircle className="h-12 w-12 text-white drop-shadow-lg" />
                 </button>
             </div>
             {/* YouTube icon overlay */}
-            <div className="absolute top-3 right-3">
+            <div className="absolute top-2 right-2">
               <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer">
                 <Button 
                   size="icon" 
-                  className="h-8 w-8 bg-red-600/90 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="h-6 w-6 bg-red-600/80 hover:bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                 >
-                  <Youtube className="h-4 w-4" />
+                  <Youtube className="h-3 w-3" />
                 </Button>
               </a>
             </div>
         </div>
         
-        <div className="p-4 flex-grow flex flex-col">
+        <div className="p-3 flex-grow flex flex-col">
           <div className="flex-grow">
-            <h3 className="text-white font-semibold text-sm leading-tight mb-2 line-clamp-2">
+            <h3 className="text-white font-medium text-sm leading-tight mb-1 line-clamp-2">
               {video.title}
             </h3>
-            <p className="text-gray-400 text-xs mb-3 truncate">{video.channel}</p>
+            <p className="text-gray-500 text-xs mb-2 truncate">{video.channel}</p>
           </div>
           
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Button 
                 variant="ghost" 
                 size="icon" 
-                className="h-8 w-8 text-gray-400 hover:text-rose-500 disabled:opacity-50 transition-colors"
+                className="h-6 w-6 text-gray-500 hover:text-rose-500 disabled:opacity-50 transition-colors"
                 onClick={handleFavorite}
                 disabled={!user || isProcessing}
               >
-                <Heart className={cn("h-4 w-4", isFavorited && "fill-current text-rose-500")} />
+                <Heart className={cn("h-3 w-3", isFavorited && "fill-current text-rose-500")} />
               </Button>
               <div className='flex items-center gap-1'>
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="h-8 w-8 text-gray-400 hover:text-green-500 disabled:opacity-50 transition-colors"
+                  className="h-6 w-6 text-gray-500 hover:text-green-500 disabled:opacity-50 transition-colors"
                   onClick={handleVote}
                   disabled={!user || isProcessing}
                 >
-                  <ThumbsUp className="h-4 w-4" />
+                  <ThumbsUp className="h-3 w-3" />
                 </Button>
-                <span className="text-xs text-gray-300 font-medium">{video.votes}</span>
+                <span className="text-xs text-gray-400 font-medium">{video.votes}</span>
               </div>
             </div>
           </div>
