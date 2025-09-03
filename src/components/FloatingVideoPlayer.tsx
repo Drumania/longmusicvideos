@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './ui/button';
-import { X, Expand, Shrink } from 'lucide-react';
+import { X, Expand, Shrink, ExternalLink } from 'lucide-react';
 
 interface FloatingVideoPlayerProps {
   videoId: string;
@@ -35,7 +35,7 @@ export function FloatingVideoPlayer({ videoId, title, isOpen, onClose }: Floatin
 
   const playerContent = (
     <div className={`${getPlayerSize()} transition-all duration-300`}>
-      <div className="bg-gray-900 rounded-lg shadow-2xl border border-gray-700 overflow-hidden">
+      <div className="bg-gray-900 h-full rounded-lg shadow-2xl border border-gray-700 overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-2 bg-gray-800 border-b border-gray-700">
           <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -43,6 +43,15 @@ export function FloatingVideoPlayer({ videoId, title, isOpen, onClose }: Floatin
             <span className="text-white text-sm font-medium truncate">{title}</span>
           </div>
           <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6 text-gray-400 hover:text-white"
+              onClick={() => window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank')}
+              title="Abrir en YouTube (con casting)"
+            >
+              <ExternalLink className="h-3 w-3" />
+            </Button>
             <Button
               variant="ghost"
               size="icon"
@@ -74,10 +83,10 @@ export function FloatingVideoPlayer({ videoId, title, isOpen, onClose }: Floatin
         {!isMinimized && (
           <div className={`relative w-full ${isMaximized ? 'h-full' : 'h-48'}`}>
             <iframe
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&enablejsapi=1`}
+              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&enablejsapi=1&controls=1&showinfo=1&fs=1&cc_load_policy=1&iv_load_policy=3&playsinline=1`}
               title={title}
               className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
               allowFullScreen
             />
           </div>
