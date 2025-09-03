@@ -2,12 +2,15 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
-import { Search, LogIn, LogOut } from 'lucide-react';
+import { Search, LogIn, LogOut, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import Image from 'next/image';
+import { useState } from 'react';
+import { AddVideoModal } from './AddVideoModal';
 
 export function Header() {
   const { user, login, logout } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <header className="flex items-center justify-between p-4 border-b border-gray-700">
@@ -18,6 +21,14 @@ export function Header() {
         </Button>
         {user ? (
           <div className="flex items-center gap-2">
+            <Button 
+              variant="default" 
+              size="icon" 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-cyan-500 hover:bg-cyan-600 text-white rounded-full"
+            >
+              <Plus className="h-5 w-5" />
+            </Button>
             <Image src={user.photoURL || '/default-avatar.png'} alt={user.displayName || 'User'} width={32} height={32} className="rounded-full" />
             <span className="text-white hidden sm:block">{user.displayName}</span>
             <Button variant="ghost" size="icon" onClick={logout} className="text-gray-400 hover:text-white">
@@ -31,6 +42,7 @@ export function Header() {
             </Button>
         )}
       </div>
+      <AddVideoModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </header>
   );
 }

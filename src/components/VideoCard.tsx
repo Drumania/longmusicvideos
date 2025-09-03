@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext'; // Import the useAuth hook
 import { addVote, toggleFavorite } from '@/app/actions'; // Import Server Actions
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { VideoEmbedModal } from './VideoEmbedModal';
 
 export interface Video {
     documentId: string; // Firestore document ID
@@ -23,6 +24,7 @@ export interface Video {
 export function VideoCard({ video }: { video: Video }) {
   const { user } = useAuth();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isEmbedModalOpen, setIsEmbedModalOpen] = useState(false);
 
   // Check if the current user has favorited this video
   const isFavorited = user ? video.favorites.includes(user.uid) : false;
@@ -46,9 +48,12 @@ export function VideoCard({ video }: { video: Video }) {
         <div className="relative">
             <Image src={video.thumbnail} alt={video.title} width={400} height={225} className="w-full h-auto object-cover" />
             <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                 <a href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer" className='cursor-pointer'>
+                 <button 
+                   onClick={() => setIsEmbedModalOpen(true)}
+                   className='cursor-pointer hover:scale-110 transition-transform'
+                 >
                     <PlayCircle className="h-12 w-12 text-white hover:text-cyan-400 transition-colors" />
-                </a>
+                </button>
             </div>
         </div>
       <CardHeader className="p-4 flex-grow">
@@ -86,6 +91,12 @@ export function VideoCard({ video }: { video: Video }) {
             </Button>
         </a>
       </CardFooter>
+      <VideoEmbedModal 
+        isOpen={isEmbedModalOpen}
+        onClose={() => setIsEmbedModalOpen(false)}
+        videoId={video.id}
+        title={video.title}
+      />
     </Card>
   );
 }

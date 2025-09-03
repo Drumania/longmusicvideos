@@ -3,7 +3,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { app } from '@/lib/firebase';
-import { getFirestore, doc, updateDoc, increment, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { getFirestore, doc, updateDoc, increment, arrayUnion, arrayRemove, collection, addDoc } from 'firebase/firestore';
 
 const db = getFirestore(app);
 
@@ -35,5 +35,33 @@ export async function toggleFavorite(documentId: string, userId: string, isFavor
   } catch (error) {
     console.error('Error toggling favorite:', error);
     return { success: false, error: 'Failed to update favorites.' };
+  }
+}
+
+// Action to add a new video
+export async function addVideo(videoData: {
+  title: string;
+  description: string;
+  videoId: string;
+  thumbnail: string;
+  channel: string;
+}) {
+  try {
+    const videosCollection = collection(db, 'videos');
+    await addDoc(videosCollection, {
+      id: videoData.videoId,
+      title: videoData.title,
+      channel: videoData.channel,
+      thumbnail: videoData.thumbnail,
+      description: videoData.description,
+      votes: 0,
+      favorites: [],
+      createdAt: new Date(),
+    });
+    revalidatePath('/');
+    return { success: true };
+  } catch (error) {
+    console.error('Error adding video:', error);
+    return { success: false, error: 'Failed to add video.' };
   }
 }
