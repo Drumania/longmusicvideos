@@ -4,6 +4,7 @@ import { VideoCard, Video } from "@/components/VideoCard";
 import { Button } from "@/components/ui/button";
 import { app } from "@/lib/firebase"; // Import the initialized Firebase app
 import { getFirestore, collection, getDocs } from "firebase/firestore";
+import Link from "next/link"; // Import the Link component
 
 // Fetch videos from Firestore
 async function getVideos() {
@@ -13,9 +14,8 @@ async function getVideos() {
   const videoList = videoSnapshot.docs.map(doc => {
       const data = doc.data();
       return {
-          // Make sure the properties match your Video type
           documentId: doc.id,
-          id: data.id, // YouTube ID
+          id: data.id, 
           title: data.title,
           channel: data.channel,
           thumbnail: data.thumbnail,
@@ -35,8 +35,12 @@ export default async function Home() {
       <main className="p-8">
         <div className="flex justify-center gap-4 mb-8">
             <Button variant="secondary">Explore</Button>
-            <Button variant="ghost">Top Voted</Button>
-            <Button variant="ghost">My Favorites</Button>
+            <Link href="/top-voted">
+                <Button variant="ghost">Top Voted</Button>
+            </Link>
+            <Link href="/favorites">
+                <Button variant="ghost">My Favorites</Button>
+            </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {videos.map((video) => (
