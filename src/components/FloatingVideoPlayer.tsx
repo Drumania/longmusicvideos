@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from './ui/button';
-import { X, Minimize2, Maximize2, Expand, Shrink } from 'lucide-react';
+import { X, Expand, Shrink } from 'lucide-react';
 
 interface FloatingVideoPlayerProps {
   videoId: string;

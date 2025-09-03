@@ -5,9 +5,10 @@ import { Modal } from './ui/modal';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
+
 import { Loader2, Youtube } from 'lucide-react';
 import { addVideo } from '@/app/actions';
+import Image from 'next/image';
 
 interface AddVideoModalProps {
   isOpen: boolean;
@@ -77,7 +78,7 @@ export function AddVideoModal({ isOpen, onClose }: AddVideoModalProps) {
     try {
       const data = await fetchVideoData(videoId);
       setVideoData(data);
-    } catch (error) {
+    } catch {
       setError('Error al obtener información del video');
     } finally {
       setIsLoading(false);
@@ -154,9 +155,11 @@ export function AddVideoModal({ isOpen, onClose }: AddVideoModalProps) {
         ) : (
           <div className="space-y-4">
             <div className="bg-gray-700 p-4 rounded-lg">
-              <img
+              <Image
                 src={videoData.thumbnail}
                 alt={videoData.title}
+                width={400}
+                height={192}
                 className="w-full h-48 object-cover rounded mb-4"
               />
               <h3 className="text-white font-semibold mb-2">{videoData.title}</h3>

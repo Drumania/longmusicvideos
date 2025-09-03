@@ -26,7 +26,7 @@ export function FirebaseDebug() {
         setError('');
       } catch (err) {
         setStatus('Error de conexión');
-        setError(err.message);
+        setError(err instanceof Error ? err.message : 'Unknown error');
         console.error('Firebase error:', err);
       }
     };

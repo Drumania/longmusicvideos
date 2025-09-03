@@ -64,6 +64,6 @@ export async function addVideo(videoData: {
     return { success: true };
   } catch (error) {
     console.error('Error adding video:', error);
-    return { success: false, error: `Failed to add video: ${error.message}` };
+    return { success: false, error: `Failed to add video: ${error instanceof Error ? error.message : 'Unknown error'}` };
   }
 }

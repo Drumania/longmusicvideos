@@ -1,9 +1,7 @@
 
 import { Header } from "@/components/Header";
 import { VideoCard, Video } from "@/components/VideoCard";
-import { Button } from "@/components/ui/button";
 import { adminDb } from "@/lib/firebase-admin";
-import Link from "next/link"; // Import the Link component
 import { FirebaseDebug } from "@/components/FirebaseDebug";
 
 // Fetch videos from Firestore
@@ -20,6 +18,7 @@ async function getVideos() {
           thumbnail: data.thumbnail,
           votes: data.votes,
           favorites: data.favorites || [],
+          createdAt: data.createdAt?.toDate() || null,
       } as Video;
   });
   return videoList;

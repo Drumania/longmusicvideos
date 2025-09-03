@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart, PlayCircle, ThumbsUp, Youtube } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext'; // Import the useAuth hook
@@ -19,6 +19,7 @@ export interface Video {
     thumbnail: string;
     votes: number;
     favorites: string[]; // Array of user UIDs who have favorited it
+    createdAt?: Date; // Date when the video was added
 }
 
 export function VideoCard({ video }: { video: Video }) {
@@ -78,7 +79,13 @@ export function VideoCard({ video }: { video: Video }) {
             <h3 className="text-white font-medium text-sm leading-tight mb-1 line-clamp-2">
               {video.title}
             </h3>
-            <p className="text-gray-500 text-xs mb-2 truncate">{video.channel}</p>
+            <p className="text-gray-500 text-xs mb-2">
+              {video.createdAt ? new Date(video.createdAt).toLocaleDateString('es-ES', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+              }) : 'Fecha no disponible'}
+            </p>
           </div>
           
           <div className="flex items-center justify-between">

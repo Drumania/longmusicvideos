@@ -2,7 +2,7 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
-import { Search, LogIn, LogOut, Plus } from 'lucide-react';
+import { LogIn, LogOut, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { useState } from 'react';

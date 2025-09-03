@@ -2,7 +2,7 @@
 
 import { Modal } from './ui/modal';
 import { Button } from './ui/button';
-import { X } from 'lucide-react';
+
 
 interface VideoEmbedModalProps {
   isOpen: boolean;

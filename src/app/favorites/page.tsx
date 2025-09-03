@@ -4,11 +4,9 @@
 import { useState, useEffect } from 'react';
 import { Header } from "@/components/Header";
 import { VideoCard, Video } from "@/components/VideoCard";
-import { Button } from "@/components/ui/button";
 import { app } from "@/lib/firebase";
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { useAuth } from '@/context/AuthContext';
-import Link from 'next/link';
 
 export default function FavoritesPage() {
   const { user } = useAuth();
@@ -38,6 +36,7 @@ export default function FavoritesPage() {
             thumbnail: data.thumbnail,
             votes: data.votes,
             favorites: data.favorites || [],
+            createdAt: data.createdAt?.toDate() || null,
         } as Video;
       });
 
