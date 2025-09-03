@@ -22,7 +22,7 @@ export function Header() {
     <>
       <header className="flex items-center justify-between p-4 relative">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center pl-5 gap-3">
           <Image 
             src="/logo.png" 
             alt="Logo" 

@@ -21,7 +21,14 @@ async function getVideos() {
           createdAt: data.createdAt?.toDate() || null,
       } as Video;
   });
-  return videoList;
+  
+  // Ordenar por fecha de creación descendente (más recientes primero)
+  return videoList.sort((a, b) => {
+    if (!a.createdAt && !b.createdAt) return 0;
+    if (!a.createdAt) return 1;
+    if (!b.createdAt) return -1;
+    return b.createdAt.getTime() - a.createdAt.getTime();
+  });
 }
 
 export default async function Home() {
