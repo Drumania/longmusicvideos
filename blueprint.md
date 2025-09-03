@@ -24,23 +24,13 @@ This document outlines the plan and progress for creating a Next.js web applicat
 ### Firestore Data Structure
 
 - **Videos Collection:**
-  - `videos/{videoId}`
+  - `videos/{documentId}`
+    - `id`: string (YouTube video ID)
     - `title`: string
-    - `channelTitle`: string
-    - `thumbnailUrl`: string
-    - `voteCount`: number
-
-- **Users Collection:**
-  - `users/{uid}`
-    - `displayName`: string
-    - `email`: string
-    - `photoURL`: string
-    - `favorites`: Subcollection -> `favorites/{videoId}`
-      - `addedAt`: timestamp
-
-- **Votes Subcollection (within Videos):**
-  - `videos/{videoId}/votes/{uid}`
-    - `votedAt`: timestamp
+    - `channel`: string
+    - `thumbnail`: string
+    - `votes`: number
+    - `favorites`: array of user UIDs
 
 ### UI Components
 - **Header:** Contains the app logo, a search bar, and user profile/login button.
@@ -58,12 +48,15 @@ This document outlines the plan and progress for creating a Next.js web applicat
 
 1.  **DONE** Set up the initial project structure and define the plan in this `blueprint.md`.
 2.  **DONE** Add Firebase to the project configuration.
-3.  **DONE** Install necessary dependencies: `firebase`, `lucide-react`.
+3.  **DONE** Install necessary dependencies: `firebase`, `lucide-react`, `dotenv`, `ts-node`.
 4.  **DONE** Initialize `shadcn/ui` and add `card` and `button` components.
-5.  **DONE** Create the Firebase configuration file (`src/lib/firebase.ts`).
-6.  **DONE** Create initial UI components: `Header` and a placeholder `VideoCard`.
-7.  **DONE** Structure the main page (`src/app/page.tsx`) with a mock video list.
-8.  **Next:** Implement Firebase Authentication flow.
-9.  **Next:** Connect to Firestore to fetch and display video data.
-10. **Next:** Implement the "favorite" and "vote" functionality (Server Actions).
-
+5.  **DONE** Create the Firebase configuration file (`src/lib/firebase.ts`) using environment variables.
+6.  **DONE** Create a `.env.local` file for Firebase credentials.
+7.  **DONE** Create a `seed.ts` script to populate the Firestore database.
+8.  **DONE** Add a `seed` script to `package.json`.
+9.  **DONE** Create initial UI components: `Header` and a placeholder `VideoCard`.
+10. **DONE** Structure the main page (`src/app/page.tsx`) with a mock video list.
+11. **DONE** Implement Firebase Authentication flow with `AuthContext`.
+12. **Next:** Connect to Firestore to fetch and display video data on the main page.
+13. **Next:** Implement the "favorite" and "vote" functionality using Server Actions.
+14. **Next:** Create dynamic pages for "Top Voted" and "My Favorites."

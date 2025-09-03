@@ -1,42 +1,46 @@
 
 import { Header } from "@/components/Header";
 import { VideoCard, Video } from "@/components/VideoCard";
+import { Button } from "@/components/ui/button";
+import { app } from "@/lib/firebase"; // Import the initialized Firebase app
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
-const mockVideos: Video[] = [
-  {
-    id: "jfKfPfyJRdk",
-    thumbnail: "https://i.ytimg.com/vi/jfKfPfyJRdk/hq720.jpg",
-    title: "lofi hip hop radio 📚 - beats to relax/study to",
-    channel: "Lofi Girl",
-  },
-  {
-    id: "rUxyKA_-grg",
-    thumbnail: "https://i.ytimg.com/vi/rUxyKA_-grg/hq720.jpg",
-    title: "1 A.M Study Session 📚 - [lofi hip hop/chill beats]",
-    channel: "Lofi Girl",
-  },
-    {
-    id: "-5KAN9_CzSA",
-    thumbnail: "https://i.ytimg.com/vi/-5KAN9_CzSA/hq720.jpg",
-    title: "coffee shop radio // 24/7 lofi hip-hop beats",
-    channel: "STEEZYASFUCK",
-  },
-  {
-    id: "DWcJFNfaw9c",
-    thumbnail: "https://i.ytimg.com/vi/DWcJFNfaw9c/hq720.jpg",
-    title: "Lofi Hip Hop Radio 24/7 🎧 Chill Gaming / Study Beats",
-    channel: "Chillhop Music",
-  },
-];
+// Fetch videos from Firestore
+async function getVideos() {
+  const db = getFirestore(app);
+  const videosCollection = collection(db, "videos");
+  const videoSnapshot = await getDocs(videosCollection);
+  const videoList = videoSnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+          // Make sure the properties match your Video type
+          documentId: doc.id,
+          id: data.id, // YouTube ID
+          title: data.title,
+          channel: data.channel,
+          thumbnail: data.thumbnail,
+          votes: data.votes,
+          favorites: data.favorites || [],
+      } as Video;
+  });
+  return videoList;
+}
 
-export default function Home() {
+export default async function Home() {
+  const videos = await getVideos();
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <Header />
       <main className="p-8">
+        <div className="flex justify-center gap-4 mb-8">
+            <Button variant="secondary">Explore</Button>
+            <Button variant="ghost">Top Voted</Button>
+            <Button variant="ghost">My Favorites</Button>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {mockVideos.map((video) => (
-            <VideoCard key={video.id} video={video} />
+          {videos.map((video) => (
+            <VideoCard key={video.documentId} video={video} />
           ))}
         </div>
       </main>
