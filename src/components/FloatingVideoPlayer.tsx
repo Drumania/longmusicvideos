@@ -25,7 +25,7 @@ export function FloatingVideoPlayer({ videoId, title, isOpen, onClose }: Floatin
 
   const getPlayerSize = () => {
     if (isMaximized) {
-      return 'fixed top-16 left-4 right-4 bottom-4 z-50';
+      return 'fixed top-4 left-4 right-4 bottom-4 z-50';
     }
     if (isMinimized) {
       return 'fixed bottom-4 right-4 z-50 w-80 h-20';
@@ -81,7 +81,7 @@ export function FloatingVideoPlayer({ videoId, title, isOpen, onClose }: Floatin
 
         {/* Video Player */}
         {!isMinimized && (
-          <div className={`relative w-full ${isMaximized ? 'h-full' : 'h-48'}`}>
+          <div className={`relative w-full ${isMaximized ? 'h-[calc(100%-3rem)]' : 'h-48'}`}>
             <iframe
               src={`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&enablejsapi=1&controls=1&showinfo=1&fs=1&cc_load_policy=1&iv_load_policy=3&playsinline=1`}
               title={title}
