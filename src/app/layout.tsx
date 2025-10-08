@@ -1,20 +1,27 @@
 
 import type { Metadata } from "next";
-import { Atkinson_Hyperlegible } from "next/font/google";
+import { Plus_Jakarta_Sans, Lora, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
-import { VideoPlayerProvider } from "@/context/VideoPlayerContext";
-import { GlobalVideoPlayer } from "@/components/GlobalVideoPlayer";
 
-const atkinsonMono = Atkinson_Hyperlegible({
-  variable: "--font-atkinson-mono",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "700"],
+});
+
+const lora = Lora({
+  variable: "--font-serif",
+  subsets: ["latin"],
+});
+
+const robotoMono = Roboto_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Lofi Video Directory",
-  description: "Your place for curated lofi hip hop beats to study, relax, or focus.",
+  title: "Guidelines",
+  description: "Your place for creating and managing guidelines.",
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
@@ -28,15 +35,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${atkinsonMono.variable} antialiased`}
+        className={`${jakarta.variable} ${lora.variable} ${robotoMono.variable} antialiased`}
       >
         <AuthProvider>
-          <VideoPlayerProvider>
-            {children}
-            <GlobalVideoPlayer />
-          </VideoPlayerProvider>
+          {children}
         </AuthProvider>
       </body>
     </html>
